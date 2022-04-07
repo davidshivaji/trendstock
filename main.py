@@ -12,7 +12,7 @@ pytrends = TrendReq(hl='en_US', tz=360)
 all_keywords = ['bitcoin']
 
 today = date.today()
-start = '2004-01-01'
+start = '2010-01-01'
 
 frame = f'{start} {today.strftime("%Y-%m-%d")}'
 
@@ -22,13 +22,7 @@ stockdf = yf.download('BTC-USD',
                         progress=False
                         )
 
-
-stockdf['Close'].max()
-
 normalizer = stockdf['Close'].max() / 100
-
-# now just divide the stockdf by the normalizer and plot that
-# nope.
 
 pytrends.build_payload(all_keywords, timeframe=frame, geo='')
 
@@ -40,12 +34,14 @@ plt.figure().patch.set_facecolor('#121212')
 plt.axes().set_facecolor('#080808')
 linewidth = 1
 
-colors = ['orange', 'teal', 'crimson', 'magenta', 'skyblue']
+colors = ['silver', 'teal', 'green', 'magenta', 'skyblue']
 
 for i, x in enumerate(all_keywords):
     plt.plot(df[x], color=colors[i], label=x + ' trend', linewidth=linewidth)
 
-plt.plot(stockdf['Close'] / normalizer, color="silver", label="bitcoin price", linewidth=linewidth)
+plt.plot(stockdf['Close'] / normalizer, color="orange", label="bitcoin price", linewidth=linewidth)
+
+plt.ylabel('Percentage of all-time highest value')
 
 plt.legend()
 plt.grid(color='#303030')
